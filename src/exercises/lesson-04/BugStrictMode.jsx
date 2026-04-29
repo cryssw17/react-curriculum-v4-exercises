@@ -7,9 +7,10 @@ export default function BugStrictMode() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       setCount((c) => c + 1);
     }, 1000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -20,4 +21,4 @@ export default function BugStrictMode() {
   );
 }
 
-// Write your explanation of how StrictMode helps us catch this bug
+// StrictMode runs the effect twice to simulate unmount/remount. By running the effect a 2nd time, this leads to a second setInterval being run that also increases the count by 1 every second. And this is what caused the count to increase by 2 instead of 1. The fix was to store the interval in a variable and then have a cleanup function in the useEffect that clears the first interval before starting the second one.
