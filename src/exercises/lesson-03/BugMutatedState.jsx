@@ -13,8 +13,7 @@ export default function BugMutatedState() {
   let [count, setCount] = useState(0);
 
   function handleAdd() {
-    count++;
-    setCount(count);
+    setCount(count + 1);
   }
 
   return (
@@ -26,4 +25,4 @@ export default function BugMutatedState() {
 }
 
 // Explanation:
-// (Write your explanation here)
+// In the handleAdd function, count was originally being incremented with count++. However, this is incorrect because variables should not be directly manipulated in React. Instead, the count should be updated through the setter function, setCount.
